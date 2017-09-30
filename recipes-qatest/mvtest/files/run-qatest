@@ -1,0 +1,9 @@
+#!/bin/sh
+
+DATE=$(date +%y%m%d%H%M)
+
+mkdir -p ##RESULTS_DIR##
+
+cd ##QATEST_PATH##
+py.test ##QATEST_CMD_OPTIONS##  ##QATESTS## 
+cp ##QATEST_LOG## ##RESULTS_DIR##

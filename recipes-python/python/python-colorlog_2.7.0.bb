@@ -1,0 +1,9 @@
+LIC_FILES_CHKSUM = "file://README.md;md5=902c62ab6e9265a38087489b9abc68ad"
+LICENSE = "MIT"
+
+inherit pypi setuptools
+
+PYPI_PACKAGE = "colorlog"
+
+SRC_URI[md5sum] = "54709d93ee29bf61a2163e3019f4460e"
+SRC_URI[sha256sum] = "8e197dae35398049965293021dd69a9db068efe97133597f128e5ef69392f33e"

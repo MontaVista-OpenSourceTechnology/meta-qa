@@ -1,0 +1,158 @@
+mvtest APIs
+
+kernutils
+Utilites for tests under suites/kernel tests.
+
+get_nr_cpus()[source]
+
+    Return number of available online cpus.
+
+    Returns:
+        int: Number of online cpus from /proc/cpuinfo
+
+get_online_cpus()[source]
+
+    Returns a list of online cpus from /sys/devices/system/cpu/online.
+
+    Returns:
+        list: cpu0 is not included as its expected be online.
+
+make_cpu_offline(cpus=None)[source]
+
+    Enable the list of cpus online.
+
+    Returns:
+        bool: True on success. False on failure.
+
+    Examples:
+
+    make_cpu_offline('5')
+    make_cpu_offline(['2', '5', '7'])
+    make_cpu_offline(5)
+
+make_cpu_online(cpus=None, online=True)[source]
+
+    Enable the list of cpus online.
+
+    Returns:
+        bool: True on success. False on failure.
+
+    Examples:
+
+    make_cpu_online('5') # make cpu5 online
+    make_cpu_online(['2', '5', '7']) # make cpu2,5,7 online
+    make_cpu_online(5)
+
+
+netutils
+Utilities for tests under suites/net.
+
+getip()[source]
+
+    Return local ip address
+
+ping(ripaddr=None, count=None)[source]
+
+    Ping remote machine with N number of packets.
+
+    Args:
+
+        ripaddr (string): Remote IPv4 address.
+
+        count (string): Number of packets to be sent.
+    Returns:
+
+        bool: True on 0% packet loss or False on partial/100% loss. OR
+
+        Popen object: If count is not specified.
+
+
+utils
+mvtest library with general purpose utility APIs
+
+class ExpectShell[source]
+
+    Provides a set of APIs for interactive shell. Has four main methods
+
+        connect:
+            Spawns an expect shell
+
+        run_cmd:
+            Combines both expect send and match.
+
+        match_group:
+            Returns the matched regex pattern as tuples.
+
+        terminate:
+            Terminate the spawned process.
+
+    connect(cmd, timeout=30)[source]
+
+        Returns:
+
+            pexpect.spwan object: on success.
+
+            False: on Failure
+        Args:
+
+            cmd (string): command to spawn.
+
+            timeout (int): default 30 seconds.
+        Examples:
+
+            EX1:
+
+            expect = ExpectShell()
+            expect.connect('telnet shark 2305', timeout=60)
+
+            Ex2:
+
+            expect = ExpectShell()
+            expect.connect('gdb a.out')
+
+    match_groups()[source]
+
+        Returns:
+            A tuple of matched groups.
+        Examples:
+
+            expect = ExpectShell()
+            expect.connect('telnet shark 2305', timeout=60)
+            index = expect.run_cmd('ls', pattern=['(*.py)', '*.sh'])
+            assert index == 1 or index == 0
+            log.info(expect.match_groups())
+
+    run_cmd(cmd, pattern, sleep=None, timeout=30)[source]
+
+        Returns:
+
+            Index into the pattern list: on success.
+
+            If the pattern was not a list this returns index 0 on a successful match.
+
+            None: on Failure
+        Args:
+
+            cmd (string): command to run.
+
+            pattern: StringType, or pexpect.EOF, a compiled re, or list.
+
+            sleep (int): Default is None. Will sleep after sending command.
+
+            timeout (int): default 30 seconds
+        Examples:
+
+            expect = ExpectShell()
+            expect.connect('telnet shark 2305', timeout=60)
+            index = expect.run_cmd('ls', pattern=['(*.py)', '*.sh'])
+            assert index == 1 or index == 0
+
+    terminate()[source]
+
+        Returns:
+
+            True: on success.
+
+            False: on failure.
+
+        This forces a child process to terminate. It starts nicely with SIGHUP and SIGINT. If force is True then moves onto SIGKILL.
