@@ -13,34 +13,35 @@ SRC_URI = "\
 
 S = "${WORKDIR}/git"
 
-do_configure[noexec] = "1"
-do_compile[noexec] = "1"
+inherit qa-framework-dir
 
-QATEST_PATH ?= "/opt/qatest"
-RESULTS_DIR ?= "/results"
-QATESTS ?= "suites"
 QATEST_LOG ?= "qatest-${DISTRO}-${MACHINE}.html"
 QATEST_CMD_OPTIONS ?= "-vv --html ${QATEST_LOG}"
 
-do_install () {
-        mkdir -p ${D}${QATEST_PATH}
-        cp -a ${S}/* ${D}${QATEST_PATH}
-	chown -R root:root ${D}${QATEST_PATH}
-
-	install  ${WORKDIR}/run-qatest ${S}
+do_configure () {
+	cp ${WORKDIR}/run-qatest ${S}
 		
-	sed -i -e"s:##QATEST_PATH##:${QATEST_PATH}:g" ${S}/run-qatest
-	sed -i -e"s:##QATESTS##:${QATESTS}:g" ${S}/run-qatest
-	sed -i -e"s:##RESULTS_DIR##:${RESULTS_DIR}:g" ${S}/run-qatest
+	sed -i -e"s:##QATEST_PATH##:${QATEST_BIN_DIR}:g" ${S}/run-qatest
+	sed -i -e"s:##QATESTS##:${QATEST_SUITES_DIR}:g" ${S}/run-qatest
+	sed -i -e"s:##RESULTS_DIR##:${QATEST_RESULTS_DIR}:g" ${S}/run-qatest
 	sed -i -e"s:##QATEST_CMD_OPTIONS##:${QATEST_CMD_OPTIONS}:g" ${S}/run-qatest
 	sed -i -e"s:##QATEST_LOG##:${QATEST_LOG}:g" ${S}/run-qatest
+}
 
-	install -m 755  ${S}/run-qatest ${D}${QATEST_PATH}/run-qatest
+do_compile[noexec] = "1"
+
+do_install () {
+        mkdir -p ${D}${QATEST_BIN_DIR}
+
+        cp -a ${S}/* ${D}/${QATEST_BIN_DIR}
+
+	install -m 755 ${S}/run-qatest ${D}${QATEST_BIN_DIR}
+	chown -R root:root ${D}/${QATEST_BIN_DIR}
 }
 
 PACKAGES = "${PN}"
 
-FILES_${PN} = "${QATEST_PATH}"
+FILES_${PN} = "${QATEST_BIN_DIR}"
 
 RDEPENDS_${PN} = "\
 		python python-pytest python-pytest-html python-pytest-timeout python-pytest-metadata \
