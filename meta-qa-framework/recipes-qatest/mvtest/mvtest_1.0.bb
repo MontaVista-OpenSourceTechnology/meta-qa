@@ -1,22 +1,12 @@
-# 
-# Copyright 2017 MontaVista LLC.
-#
-SUMMARY = "An open-source automated test suite based on pytest framework to perform a full-fledged QA"
-LICENSE = "MIT"
-LIC_FILES_CHKSUM = "file://license.txt;md5=40bb041f1875a8c9a752e61e8c9bdd77"
 
-SRCREV = "4ee7f34a5af6454d2d79973c3b6d849b0f3448d2"
-SRC_URI = "\
-	git://github.com/MontaVista-OpenSourceTechnology/mvtest.git \
-	file://run-qatest \
-	"
+include mvtest.inc
 
-S = "${WORKDIR}/git"
-
-inherit qa-framework-dir
+SRC_URI += "file://run-qatest"
 
 QATEST_LOG ?= "qatest-${DISTRO}-${MACHINE}.html"
 QATEST_CMD_OPTIONS ?= "-vv --html ${QATEST_LOG}"
+
+inherit qa-framework-dir
 
 do_configure () {
 	cp ${WORKDIR}/run-qatest ${S}
@@ -31,9 +21,17 @@ do_configure () {
 do_compile[noexec] = "1"
 
 do_install () {
-        mkdir -p ${D}${QATEST_BIN_DIR}
+        install -d ${D}${QATEST_BIN_DIR}
+        install -d ${D}${QATEST_BIN_DIR}/apis
+        install -d ${D}${QATEST_BIN_DIR}/docs
 
-        cp -a ${S}/* ${D}/${QATEST_BIN_DIR}
+        install ${S}/apis/* ${D}/${QATEST_BIN_DIR}/apis/.
+        install ${S}/docs/* ${D}/${QATEST_BIN_DIR}/docs/.
+        install ${S}/conftest.py ${D}/${QATEST_BIN_DIR}
+        install ${S}/license.txt ${D}/${QATEST_BIN_DIR}
+
+        install -d ${D}${QATEST_SUITES_DIR}
+        install ${S}/suites/__init__.py ${D}${QATEST_SUITES_DIR}
 
 	install -m 755 ${S}/run-qatest ${D}${QATEST_BIN_DIR}
 	chown -R root:root ${D}/${QATEST_BIN_DIR}
@@ -41,7 +39,7 @@ do_install () {
 
 PACKAGES = "${PN}"
 
-FILES_${PN} = "${QATEST_BIN_DIR}"
+FILES_${PN} = "${QATEST_BIN_DIR} ${QATEST_SUITES_DIR}"
 
 RDEPENDS_${PN} = "\
 		python python-pytest python-pytest-html python-pytest-timeout python-pytest-metadata \
