@@ -1,0 +1,24 @@
+meta-qa-testsuite
+=====================
+
+This layer contains testsuites and supporting metadata for use with meta-qa-framworks
+
+Dependencies
+------------
+
+This layer depends on the openembedded-core metadata.
+
+This layer also optionally depends on the following layers:
+
+URI: git://github.com/openembedded/meta-oe.git
+branch: master
+revision: HEAD
+layers: meta-oe
+        meta-python
+
+URI: https://github.com/MontaVista-OpenSourceTechnology/meta-qa/meta-qa-framework
+branch: master
+revision: HEAD
+
+
+This README document is Copyright (C) 2017 MontaVista LLC.
