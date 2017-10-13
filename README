@@ -3,5 +3,8 @@ meta-qa
 
 This contains meta-qa-framework and meta-qa-testsuites
 
+To enable add to local.conf or image
+DISTRO_FEATURES_append = " qatest"
+IMAGE_INSTALL_append = " mvtest qatest-ltp qatest-automount"
 
 This README document is Copyright (C) 2017 MontaVista LLC.
