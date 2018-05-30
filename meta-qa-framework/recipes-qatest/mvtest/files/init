@@ -1,0 +1,55 @@
+#!/bin/bash
+
+VERSION=cgx2_0
+DATE=$(date +%y%m%d%H%M)
+[ -z "$CONTAINER_OK" -a "$(/usr/bin/dirname $(/usr/bin/readlink -f /dev/console))" = "/dev/pts" ] && exit 0
+
+if [ ! -d ##RESULTS_DIR## ] ; then
+	mkdir -p ##RESULTS_DIR##
+fi
+
+function runmvtest () {
+      echo "Running mvtest"
+       ##QATEST_PATH##/run-qatest 
+}
+
+function runptest () {
+        echo "Running ptest"
+	ptestdirs=$(/bin/ls -d /usr/lib*/*/ptest | xargs -n 1 dirname | xargs -n 1 dirname | sort -u)
+	for lib in $ptestdirs; do
+		ptest-runner -d $lib 2>&1 | tee ##RESULTS_DIR##/ptest-$(basename $lib)-$DATE.log
+	done
+}
+
+function shutdownSystem () {
+        if [ -e /mnt/.psplash ] ; then
+                TMPDIR=/mnt/.psplash psplash-write "QUIT" || true
+                umount -l /mnt/.psplash
+        fi
+        halt
+}
+
+CMDLINE=$(cat /proc/cmdline)
+TESTS=""
+for x in $CMDLINE; do
+	option=$(echo $x | cut -d = -f 1)
+        if [ "$option" = "mvtest" ] ; then
+           TESTS=$(echo $x | cut -d = -f 2)
+           break
+        fi
+done
+
+for test in $(echo $TESTS | sed s,:,\ ,g); do
+    case $test in 
+       base)
+          runmvtest;
+          ;;
+       ptest)
+          runptest;
+          ;;
+       halt)
+          shutdownSystem;
+          ;;
+    esac
+done
+
