@@ -8,3 +8,5 @@ SRC_URI[sha256sum] = "f962d1a2ecb57162a3067ba41958e726ed6eb017f69648cb9439e7635f
 
 
 LIC_FILES_CHKSUM = "file://LICENSE;md5=5d425c8f3157dbf212db2ec53d9e5132"
+
+DEPENDS += "python-setuptools-scm-native"
