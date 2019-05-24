@@ -15,4 +15,4 @@ S = "${WORKDIR}/${SRCNAME}-${PV}"
 
 inherit setuptools
 
-RDEPENDS_${PN} += "python-pycrypto"
+RDEPENDS_${PN} += "python-pycrypto python-pyasn1"
