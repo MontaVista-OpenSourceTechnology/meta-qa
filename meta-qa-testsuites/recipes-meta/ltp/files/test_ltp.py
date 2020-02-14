@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 #
 # Author: SriHarsha (ssriram@mvista.com)
 #
@@ -33,7 +33,7 @@ def setup_ltp():
             if not line.lstrip().startswith('#'):
                 testnames.append(line.split(None, 1)[0])
                 commands.append(line.split(None, 1)[1])
-    commands = map(lambda s: s.strip(), commands)
+    commands = [s.strip() for s in commands]
     run_cmd("rm -rf testfilecmds")
     return testnames, commands
 
