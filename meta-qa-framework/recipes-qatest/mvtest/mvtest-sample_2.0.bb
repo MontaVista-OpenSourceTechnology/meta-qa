@@ -1,6 +1,10 @@
+#
+# Copyright 2017-2020 MontaVista LLC.
+#
+
 inherit qa-framework-dir
 
-require mvtest.inc
+include mvtest-2.0.inc
 
 do_configure[noexec] = "1"
 do_compile[noexec] = "1"
