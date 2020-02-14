@@ -56,7 +56,7 @@ PACKAGES = "${PN}"
 FILES_${PN} = "${QATEST_BIN_DIR} ${QATEST_SUITES_DIR} ${sysconfdir}/init.d/zzzmvtest"
 
 RDEPENDS_${PN} = "\
-		python python-pytest python-pytest-html python-pytest-timeout python-pytest-metadata \
-		python-colorlog python-paramiko python-ecdsa python-ansi2html python-pexpect \
-		python-pynacl python-pyasn1 python-bcrypt python-cryptography python-asn1crypto bash \
+		python3-core python3-pytest python3-pytest-html python3-pytest-timeout python3-pytest-metadata \
+		python3-colorlog python3-paramiko python3-ecdsa python3-ansi2html python3-pexpect \
+		python3-nacl python3-pyasn1 python3-bcrypt python3-cryptography python3-asn1crypto bash \
 		"

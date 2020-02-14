@@ -3,9 +3,9 @@
 #
 SUMMARY = "An open-source automated test suite based on pytest framework to perform a full-fledged QA"
 LICENSE = "MIT"
-LIC_FILES_CHKSUM = "file://license.txt;md5=40bb041f1875a8c9a752e61e8c9bdd77"
+LIC_FILES_CHKSUM = "file://license.txt;md5=fd8930b6f6429003ab81b45138c58534"
 
-SRCREV = "b69bbee1f61c19f92696ecc9262f6bccad3bee1e"
-SRC_URI = "git://github.com/MontaVista-OpenSourceTechnology/mvtest.git"
+SRCREV = "1a4455367c7d51a2d869a2f859fdaf8def16b4c7"
+SRC_URI = "git://github.com/MontaVista-OpenSourceTechnology/mvtest.git;branch=2.0"
 
 S = "${WORKDIR}/git"
