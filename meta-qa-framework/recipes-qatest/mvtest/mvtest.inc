@@ -9,9 +9,13 @@ SRC_URI += "file://init"
 QATEST_LOG ?= "qatest-${DISTRO}-${MACHINE}.html"
 QATEST_CMD_OPTIONS ?= "-vv --html ${QATEST_LOG}"
 
-inherit qa-framework-dir update-rc.d
+inherit qa-framework-dir update-rc.d update-alternatives
 INITSCRIPT_NAME = "zzzmvtest"
 INITSCRIPT_PARAMS = "start 99 2 3 4 5 ."
+
+ALTERNATIVE_PRIORITY = "90"
+ALTERNATIVE_${PN} = "__init__.py"
+ALTERNATIVE_LINK_NAME[__init__.py] = "${QATEST_SUITES_DIR}/__init__.py"
 
 do_configure () {
 	cp ${WORKDIR}/run-qatest ${S}
