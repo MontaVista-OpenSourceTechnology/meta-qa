@@ -45,7 +45,7 @@ do_install () {
         install ${S}/conftest.py ${D}/${QATEST_BIN_DIR}
         install ${S}/license.txt ${D}/${QATEST_BIN_DIR}
         install ${S}/pytest.ini ${D}/${QATEST_BIN_DIR}
-        install ${S}/requirements.txt $ ${D}/${QATEST_BIN_DIR}
+        install ${S}/requirements.txt ${D}/${QATEST_BIN_DIR}
         install ${S}/README.md ${D}/${QATEST_BIN_DIR}
 
         install -d ${D}${QATEST_SUITES_DIR}
