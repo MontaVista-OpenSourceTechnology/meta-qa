@@ -1,0 +1,11 @@
+[Unit]
+Description=Montavista Test
+After=syslog.target network.target remote-fs.target nss-lookup.target
+
+[Service]
+Type=oneshot
+ExecStart=@SBINDIR@/zzzmvtest
+StandardOutput=journal+console
+
+[Install]
+WantedBy=multi-user.target
