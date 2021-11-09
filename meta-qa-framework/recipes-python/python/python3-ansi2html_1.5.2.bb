@@ -10,4 +10,4 @@ PYPI_PACKAGE = "ansi2html"
 SRC_URI[md5sum] = "52d6085ad1c5970082ea5305a26af981"
 SRC_URI[sha256sum] = "96ae85ae7b26b7da674d87de2870ba4d1964bca733ae4614587080b6358c3ba9"
 
-RDEPENDS_${PN} = "python3-six"
+RDEPENDS:${PN} = "python3-six"

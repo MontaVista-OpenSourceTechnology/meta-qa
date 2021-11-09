@@ -1,21 +1,21 @@
-SUMMARY_${PN} ?= "${SUMMARY} - Package QA test files"
-DESCRIPTION_${PN} ?= "${DESCRIPTION}  \
+SUMMARY:${PN} ?= "${SUMMARY} - Package QA test files"
+DESCRIPTION:${PN} ?= "${DESCRIPTION}  \
 This package contains a test directory ${QATEST_PATH} for QA test purposes."
 
 inherit qa-framework-dir
 
 QATEST_SECTION ?= "meta"
 QATEST_SUITES_PATH ?= "${QATEST_SUITES_DIR}/${QATEST_SECTION}"
-FILES_${PN} = "${QATEST_SUITES_PATH}"
-SECTION_${PN} = "QA/Testsuites"
-ALLOW_EMPTY_${PN} = "1"
+FILES:${PN} = "${QATEST_SUITES_PATH}"
+SECTION:${PN} = "QA/Testsuites"
+ALLOW_EMPTY:${PN} = "1"
 QATEST_ENABLED = "${@bb.utils.contains('DISTRO_FEATURES', 'qatest', '1', '0', d)}"
-QATEST_ENABLED_class-native = ""
-QATEST_ENABLED_class-nativesdk = ""
-QATEST_ENABLED_class-cross-canadian = ""
-RDEPENDS_${PN}-qatest_class-native = ""
-RDEPENDS_${PN}-qatest_class-nativesdk = ""
-RRECOMMENDS_${PN} = "mvtest"
+QATEST_ENABLED:class-native = ""
+QATEST_ENABLED:class-nativesdk = ""
+QATEST_ENABLED:class-cross-canadian = ""
+RDEPENDS:${PN}-qatest:class-native = ""
+RDEPENDS:${PN}-qatest:class-nativesdk = ""
+RRECOMMENDS:${PN} = "mvtest"
 
 PACKAGES = "${@bb.utils.contains('QATEST_ENABLED', '1', '${PN}', '', d)}"
 

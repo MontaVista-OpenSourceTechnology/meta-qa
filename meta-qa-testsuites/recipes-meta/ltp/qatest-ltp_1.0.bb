@@ -12,4 +12,4 @@ do_install_qatest () {
 	install ${WORKDIR}/${SRC_NAME} ${D}/${QATEST_SUITES_PATH}
 }
 
-RDEPENDS_${PN} = "ltp"
+RDEPENDS:${PN} = "ltp"

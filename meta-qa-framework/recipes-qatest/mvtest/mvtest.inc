@@ -14,7 +14,7 @@ INITSCRIPT_NAME = "zzzmvtest"
 INITSCRIPT_PARAMS = "start 99 2 3 4 5 ."
 
 ALTERNATIVE_PRIORITY = "90"
-ALTERNATIVE_${PN} = "__init__.py"
+ALTERNATIVE:${PN} = "__init__.py"
 ALTERNATIVE_LINK_NAME[__init__.py] = "${QATEST_SUITES_DIR}/__init__.py"
 
 do_configure () {
@@ -62,9 +62,9 @@ do_install () {
 
 PACKAGES = "${PN}"
 
-FILES_${PN} = "${QATEST_BIN_DIR} ${QATEST_SUITES_DIR} ${sysconfdir}/init.d/zzzmvtest"
+FILES:${PN} = "${QATEST_BIN_DIR} ${QATEST_SUITES_DIR} ${sysconfdir}/init.d/zzzmvtest"
 
-RDEPENDS_${PN} = "\
+RDEPENDS:${PN} = "\
 		python3-core python3-pytest python3-pytest-html python3-pytest-timeout python3-pytest-metadata \
 		python3-colorlog python3-paramiko python3-ecdsa python3-ansi2html python3-pexpect \
 		python3-nacl python3-pyasn1 python3-bcrypt python3-cryptography python3-asn1crypto bash \

@@ -17,6 +17,6 @@ do_install () {
 }
 
 PACKAGES = "${PN}"
-FILES_${PN} = "${QATEST_SUITES_DIR}/sample"
+FILES:${PN} = "${QATEST_SUITES_DIR}/sample"
 
-RDEPENDS_${PN} = "mvtest"
+RDEPENDS:${PN} = "mvtest"
