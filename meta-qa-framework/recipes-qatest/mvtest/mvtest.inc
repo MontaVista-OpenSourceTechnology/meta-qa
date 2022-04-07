@@ -67,5 +67,5 @@ FILES:${PN} = "${QATEST_BIN_DIR} ${QATEST_SUITES_DIR} ${sysconfdir}/init.d/zzzmv
 RDEPENDS:${PN} = "\
 		python3-core python3-pytest python3-pytest-html python3-pytest-timeout python3-pytest-metadata \
 		python3-colorlog python3-paramiko python3-ecdsa python3-ansi2html python3-pexpect \
-		python3-nacl python3-pyasn1 python3-bcrypt python3-cryptography python3-asn1crypto bash \
+		python3-pynacl python3-pyasn1 python3-bcrypt python3-cryptography python3-asn1crypto bash \
 		"
