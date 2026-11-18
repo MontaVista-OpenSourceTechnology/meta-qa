@@ -6,6 +6,7 @@
 
 import pytest
 import sys
+from pathlib import Path
 sys.path.insert(0, "##QATEST_BIN_DIR##")
 from apis.utils import run_cmd
 
@@ -15,31 +16,44 @@ default_scen = ltpdir + "scenario_groups/default"
 
 
 def setup_ltp():
-    chk_ltp = run_cmd("ls %s/runltp 2>/dev/null" % ltpdir)
-    assert chk_ltp
+    if not (Path(ltpdir) / "runltp").is_file():
+        pytest.skip("LTP runltp is not installed", allow_module_level=True)
     testnames = []
     commands = []
-    files = [line.rstrip('\n') for line in open(default_scen)]
-    open("testfilecmds", "w+")
-    for tests in files:
-        fin = open(ltpdir + "runtest/" + tests, "r")
-        data2 = fin.read()
-        fout = open("testfilecmds", "a")
-        fout.write(data2)
-        fout.close()
-    f = open('testfilecmds', 'r')
-    for line in f:
-        if line.strip():
-            if not line.lstrip().startswith('#'):
-                testnames.append(line.split(None, 1)[0])
-                commands.append(line.split(None, 1)[1])
-    commands = [s.strip() for s in commands]
-    run_cmd("rm -rf testfilecmds")
+    try:
+        scenarios = Path(default_scen).read_text().splitlines()
+    except FileNotFoundError:
+        pytest.skip("LTP default scenario list is not installed",
+                    allow_module_level=True)
+    for line in scenarios:
+        scenario = line.split('#', 1)[0].strip()
+        if not scenario:
+            continue
+        scenario_file = Path(ltpdir) / "runtest" / scenario
+        try:
+            lines = scenario_file.read_text().splitlines()
+        except FileNotFoundError:
+            testnames.append("missing-scenario-" + scenario)
+            commands.append(pytest.param(
+                None, marks=pytest.mark.skip(
+                    reason="LTP scenario is not installed: %s" % scenario_file)))
+            continue
+        for lineno, line in enumerate(lines, 1):
+            line = line.strip()
+            if not line or line.startswith('#'):
+                continue
+            entry = line.split(None, 1)
+            if len(entry) != 2:
+                raise ValueError("%s:%d: expected a test name and command" %
+                                 (scenario_file, lineno))
+            name, command = entry
+            testnames.append(name)
+            commands.append(command)
     return testnames, commands
 
 
 if 'sphinx' in sys.modules:
-    testnames, commands = 0, 0
+    testnames, commands = [], []
 else:
     testnames, commands = setup_ltp()
 

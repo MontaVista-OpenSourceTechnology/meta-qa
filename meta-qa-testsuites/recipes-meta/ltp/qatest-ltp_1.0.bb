@@ -8,8 +8,8 @@ SRC_URI = "file://${SRC_NAME}"
 inherit qa-framework
 
 do_install_qatest () {
-	sed -i -e"s:##QATEST_BIN_DIR##:${QATEST_BIN_DIR}:g" ${WORKDIR}/${SRC_NAME}
-	install ${WORKDIR}/${SRC_NAME} ${D}/${QATEST_SUITES_PATH}
+	sed -i -e"s:##QATEST_BIN_DIR##:${QATEST_BIN_DIR}:g" ${UNPACKDIR}/${SRC_NAME}
+	install ${UNPACKDIR}/${SRC_NAME} ${D}/${QATEST_SUITES_PATH}
 }
 
 RDEPENDS:${PN} = "ltp"
